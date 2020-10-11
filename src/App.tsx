@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 import Main from './Main';
+import StartScreen from './StartScreen';
 
 const App: React.FC = () => {
   const [rawText, setRawText] = useState<string | null>();
 
-  const readClipboard = (): void => {
-    navigator.clipboard.readText().then(data => {
-      setRawText(data);
-    });
-  };
-
   return (
-    <div className="App">
+    <div>
       {rawText == null ? (
-        <button onClick={readClipboard}>Here we go</button>
+        <StartScreen setRawText={setRawText} />
       ) : (
         <Main rawText={rawText} />
       )}

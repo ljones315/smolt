@@ -79,6 +79,9 @@ const CommentBox: React.FC<Props> = ({
             fontFamily: 'Open Sans',
             fontSize: '16px',
           }}
+          onClick={(e): void => {
+            e.stopPropagation();
+          }}
         />
         {showSplit && (
           <MdCallSplit

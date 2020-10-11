@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   root: {
-    height: '100vh',
+    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -15,7 +15,6 @@ const useStyles = createUseStyles({
     fontSize: '30px',
     borderRadius: '8px',
     fontWeight: 'bold',
-    fontFamily: 'Open Sans',
     color: 'white',
     backgroundColor: '#D53F8C',
   },

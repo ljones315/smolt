@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Main from './Main';
+import MainScreen from './MainScreen';
 import StartScreen from './StartScreen';
 
 const App: React.FC = () => {
@@ -10,7 +10,7 @@ const App: React.FC = () => {
       {rawText == null ? (
         <StartScreen setRawText={setRawText} />
       ) : (
-        <Main rawText={rawText} />
+        <MainScreen rawText={rawText} />
       )}
     </div>
   );

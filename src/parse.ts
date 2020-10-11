@@ -28,5 +28,5 @@ export const parseText = (rawText: string): Result[] => {
     }
   }
   results.push(currResult);
-  return results;
+  return results.map(r => ({ ...r, message: r.message.trim() }));
 };

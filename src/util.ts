@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Comment } from './types';
 
 export const sumPoints = (c: Comment): number => {
@@ -84,4 +85,18 @@ export const getGithubUrl = (s: string): string | null => {
   const lineNum = `${fileMatch[2]}`;
   const url = `https://github.gatech.edu/cs-1332-fall-2020/homework/blob/master/homework${hw}/TAResources/${fileName}#L${lineNum}`;
   return url;
+};
+
+export const usePreventWindowUnload = (preventDefault: boolean): void => {
+  useEffect(() => {
+    if (!preventDefault) return;
+    const handleBeforeUnload = (event: BeforeUnloadEvent): void => {
+      console.log('hi');
+      event.preventDefault();
+      event.returnValue = '';
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return (): void =>
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [preventDefault]);
 };

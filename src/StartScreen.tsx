@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
+import logo from './logo.png';
 
 const useStyles = createUseStyles({
   root: {
@@ -12,11 +13,26 @@ const useStyles = createUseStyles({
   button: {
     border: 'none',
     padding: '0.5em 1em',
-    fontSize: '30px',
+    fontSize: '16px',
     borderRadius: '8px',
     fontWeight: 'bold',
     color: 'white',
     backgroundColor: '#D53F8C',
+  },
+  title: {
+    fontSize: '40px',
+    marginBottom: '0.5rem',
+    display: 'flex',
+  },
+  logo: {
+    fontSize: 'inherit',
+    height: '1em',
+  },
+  tagline: {
+    fontSize: '18px',
+    marginBottom: '0.5rem',
+    color: '#AAAAAA',
+    fontStyle: 'italic',
   },
 });
 
@@ -42,6 +58,11 @@ const StartScreen: React.FC<Props> = ({ setRawText }: Props) => {
 
   return (
     <div className={classes.root}>
+      <h1 className={classes.title}>
+        <img src={logo} className={classes.logo} alt="smolt logo" />
+        smolt
+      </h1>
+      <h3 className={classes.tagline}>the smol autograder for smol TAs</h3>
       {isFirefox && (
         <textarea
           value={input}
@@ -52,7 +73,7 @@ const StartScreen: React.FC<Props> = ({ setRawText }: Props) => {
       )}
       <div>
         <button className={classes.button} onClick={readInput}>
-          here we go
+          boop
         </button>
       </div>
     </div>

@@ -5,6 +5,7 @@ export interface Result {
 }
 
 export interface Comment {
+  id: number;
   text: string;
   results: Result[];
 }

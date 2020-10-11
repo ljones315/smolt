@@ -11,12 +11,13 @@ const useStyles = createUseStyles({
   },
   results: {
     fontSize: '14px',
+    marginTop: '0.5em',
+    overflowX: 'auto',
+    overflowY: 'hidden',
     // backgroundColor:
   },
   resultsContainer: {
     margin: '0 1em',
-    overflowX: 'auto',
-    overflowY: 'hidden',
     marginTop: '0.5em',
   },
 });

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import CommentBox from './CommentBox';
-import { parseText } from './parse';
 import { Comment, Result } from './types';
 import { mergeComments } from './util';
 

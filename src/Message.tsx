@@ -22,6 +22,7 @@ const Message: React.FC<Props> = ({ message }: Props) => {
         const deemph =
           line.includes('at java.') ||
           line.includes('at org.junit.') ||
+          line.includes('at app//org.junit.') ||
           line.match(/\.\.\. \d+ more/);
 
         const defaultLine = (

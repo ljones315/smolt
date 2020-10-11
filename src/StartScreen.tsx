@@ -34,6 +34,9 @@ const useStyles = createUseStyles({
     color: '#AAAAAA',
     fontStyle: 'italic',
   },
+  textarea: {
+    marginBottom: '0.5rem',
+  },
 });
 
 interface Props {
@@ -65,6 +68,7 @@ const StartScreen: React.FC<Props> = ({ setRawText }: Props) => {
       <h3 className={classes.tagline}>the smol autograder for smol TAs</h3>
       {isFirefox && (
         <textarea
+          className={classes.textarea}
           value={input}
           onChange={(e): void => {
             setInput(e.target.value);

@@ -9,7 +9,7 @@ import Message from './Message';
 const useStyles = createUseStyles({
   container: {},
   header: {
-    border: '1px black inset',
+    border: '1px solid black',
     padding: '1em',
   },
   results: {
@@ -99,12 +99,13 @@ const CommentBox: React.FC<Props> = ({
           style={{
             fontFamily: 'Open Sans',
             fontSize: '16px',
+            background: 'none',
           }}
           onClick={(e): void => {
             e.stopPropagation();
           }}
         />
-        {showSplit && (
+        {showSplit && comment.results.length > 1 && (
           <MdCallSplit
             className={classes.splitIcon}
             onClick={(e): void => {

@@ -1,6 +1,8 @@
-import { Result } from './types';
+import { Result, Comment } from './types';
+import { sumPoints } from './util';
 
 export const parseText = (rawText: string): Result[] => {
+  console.log('parsing');
   const lines = rawText.split('\n');
   lines.shift(); // we have a leading empty line for no reason
   const results: Result[] = [];
@@ -16,7 +18,6 @@ export const parseText = (rawText: string): Result[] => {
     if (lines[i].match(pointsRegex) != null) {
       results.push(currResult);
       const values = lines[i].match(pointsRegex);
-      console.log(values);
       const name = lines[i].match(/(.+) \(/);
       currResult = {
         name: name != null ? name[1] : '',
@@ -29,4 +30,8 @@ export const parseText = (rawText: string): Result[] => {
   }
   results.push(currResult);
   return results.map(r => ({ ...r, message: r.message.trim() }));
+};
+
+export const encodeText = (comments: Comment[]): string => {
+  return comments.reduce((acc, c) => acc + `[${sumPoints(c)}] ${c.text}\n`, '');
 };

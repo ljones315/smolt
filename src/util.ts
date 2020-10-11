@@ -30,3 +30,33 @@ export const mergeComments = (
   out.splice(fromIdx, 1);
   return out;
 };
+
+export const updateCommentText = (
+  comments: Comment[],
+  index: number,
+  newText: string
+): Comment[] => {
+  const out = [...comments];
+  out[index].text = newText;
+  return out;
+};
+
+export const splitComment = (
+  comments: Comment[],
+  index: number,
+  base: React.MutableRefObject<number>
+): Comment[] => {
+  const out = [...comments];
+  out.splice(
+    index,
+    1,
+    ...comments[index].results.map(
+      (r): Comment => ({
+        id: base.current++,
+        text: comments[index].text,
+        results: [r],
+      })
+    )
+  );
+  return out;
+};

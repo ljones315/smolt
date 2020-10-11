@@ -2,5 +2,9 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 pre {
-  font-family: 'Source Code Pro', monospace;
+  font-family: monospace;
+}
+input {
+  font: inherit;
+  border: none;
 }

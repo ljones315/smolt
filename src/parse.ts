@@ -32,5 +32,8 @@ export const parseText = (rawText: string): Result[] => {
 };
 
 export const encodeText = (comments: Comment[]): string => {
-  return comments.reduce((acc, c) => acc + `[${sumPoints(c)}] ${c.text}\n`, '');
+  return comments.reduce(
+    (acc, c) => acc + `[${sumPoints(c)}] ${c.text}\n\n`,
+    ''
+  );
 };

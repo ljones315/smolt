@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
@@ -26,17 +26,34 @@ interface Props {
 
 const StartScreen: React.FC<Props> = ({ setRawText }: Props) => {
   const classes = useStyles();
+  const [input, setInput] = useState<string>('');
 
-  const readClipboard = (): void => {
-    navigator.clipboard.readText().then(data => {
-      setRawText(data);
-    });
+  const readInput = (): void => {
+    if (isFirefox) {
+      setRawText(input);
+    } else {
+      navigator.clipboard.readText().then(data => {
+        setRawText(data);
+      });
+    }
   };
+
+  const isFirefox = navigator.userAgent.includes('Firefox');
+
+  console.log(isFirefox);
 
   return (
     <div className={classes.root}>
+      {isFirefox && (
+        <textarea
+          value={input}
+          onChange={(e): void => {
+            setInput(e.target.value);
+          }}
+        />
+      )}
       <div>
-        <button className={classes.button} onClick={readClipboard}>
+        <button className={classes.button} onClick={readInput}>
           here we go
         </button>
       </div>

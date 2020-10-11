@@ -2,7 +2,6 @@ import { Result, Comment } from './types';
 import { sumPoints } from './util';
 
 export const parseText = (rawText: string): Result[] => {
-  console.log('parsing');
   const lines = rawText.split('\n');
   lines.shift(); // we have a leading empty line for no reason
   const results: Result[] = [];

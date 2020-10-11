@@ -34,8 +34,9 @@ interface Props {
 
 const MainScreen: React.FC<Props> = ({ results }: Props) => {
   const classes = useStyles();
-  const badResults = results.filter(r => r.value !== 0);
   const commentId = useRef(0);
+
+  const badResults = results.filter(r => r.value !== 0);
   const [comments, setComments] = useState<Comment[]>(
     badResults.map(r => ({
       text: r.name,
@@ -61,32 +62,16 @@ const MainScreen: React.FC<Props> = ({ results }: Props) => {
   return (
     <div className={classes.root}>
       {comments.map((c, i) => (
-        <div
-          key={i}
-          className={classes.cardContainer}
-          draggable
-          onDrop={(e): void => {
-            e.preventDefault();
-            e.stopPropagation();
-            const fromId = Number(e.dataTransfer.getData('text/plain'));
-            if (fromId === c.id) {
-              return;
-            }
-            setComments(mergeComments(comments, fromId, c.id));
-          }}
-          onDragStart={(e): void => {
-            e.dataTransfer.setData('text/plain', String(c.id));
-          }}
-          onDragOver={(e): void => {
-            e.preventDefault();
-          }}
-        >
+        <div key={i} className={classes.cardContainer}>
           <CommentBox
             comment={c}
             setText={(s: string): void => {
               updateText(s, i);
             }}
             splitComment={(): void => split(i)}
+            merge={(from, to): void => {
+              setComments(mergeComments(comments, from, to));
+            }}
           />
         </div>
       ))}

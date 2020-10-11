@@ -4,6 +4,7 @@ import AutosizeInput from 'react-input-autosize';
 import { MdCallSplit } from 'react-icons/md';
 import { Comment } from './types';
 import { sumPoints } from './util';
+import Message from './Message';
 
 const useStyles = createUseStyles({
   container: {},
@@ -42,12 +43,14 @@ interface Props {
   comment: Comment;
   setText: (s: string) => void;
   splitComment: () => void;
+  merge: (from: number, to: number) => void;
 }
 
 const CommentBox: React.FC<Props> = ({
   comment,
   setText,
   splitComment,
+  merge,
 }: Props) => {
   const classes = useStyles();
   const [show, setShow] = useState(true);
@@ -55,7 +58,21 @@ const CommentBox: React.FC<Props> = ({
   const showSplitTimeout = useRef<number>();
 
   return (
-    <div className={classes.container}>
+    <div
+      className={classes.container}
+      onDrop={(e): void => {
+        e.preventDefault();
+        e.stopPropagation();
+        const fromId = Number(e.dataTransfer.getData('text/plain'));
+        if (fromId === comment.id) {
+          return;
+        }
+        merge(fromId, comment.id);
+      }}
+      onDragOver={(e): void => {
+        e.preventDefault();
+      }}
+    >
       <div
         className={classes.header}
         onClick={(): void => setShow(!show)}
@@ -68,6 +85,10 @@ const CommentBox: React.FC<Props> = ({
             () => setShowSplit(false),
             50
           );
+        }}
+        draggable
+        onDragStart={(e): void => {
+          e.dataTransfer.setData('text/plain', String(comment.id));
         }}
       >
         <span className={classes.points}>[{sumPoints(comment)}]</span>{' '}
@@ -98,7 +119,7 @@ const CommentBox: React.FC<Props> = ({
           {comment.results.map((r, i) => (
             <div key={i} className={classes.results}>
               <p className={classes.resultTitle}>{r.name}</p>
-              <pre>{r.message}</pre>
+              <Message message={r.message} />
             </div>
           ))}
         </div>

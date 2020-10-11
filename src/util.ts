@@ -60,3 +60,28 @@ export const splitComment = (
   );
   return out;
 };
+
+export const HW_NAME_MAP: Record<string, number> = {
+  LinearProbingHashMap: 6,
+};
+
+const getHwNum = (s: string): number | undefined => {
+  for (const key in HW_NAME_MAP) {
+    if (s.includes(key)) return HW_NAME_MAP[key];
+  }
+};
+
+export const getGithubUrl = (s: string): string | null => {
+  if (s.includes('student.')) return null;
+  const fileMatch = s.match(/\((\w+)\.java:(\d+)\)/);
+  if (fileMatch == null) return null;
+
+  const hwNum = getHwNum(fileMatch[1]);
+  if (hwNum == null) return null;
+
+  const hw = String(hwNum).padStart(2, '0');
+  const fileName = `${fileMatch[1]}.java`;
+  const lineNum = `${fileMatch[2]}`;
+  const url = `https://github.gatech.edu/cs-1332-fall-2020/homework/blob/master/homework${hw}/TAResources/${fileName}#L${lineNum}`;
+  return url;
+};

@@ -40,8 +40,6 @@ const StartScreen: React.FC<Props> = ({ setRawText }: Props) => {
 
   const isFirefox = navigator.userAgent.includes('Firefox');
 
-  console.log(isFirefox);
-
   return (
     <div className={classes.root}>
       {isFirefox && (

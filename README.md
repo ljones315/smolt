@@ -17,11 +17,16 @@ _the smol autograder for smol TAs_
 
 1. Go to the Gradescope submission and click the bookmark (it should open the autograder results panel automatically). The bookmarklet has now copied the submission results to your clipboard.
 
-2. Go to [smolt.vercel.app](https://smolt.vercel.app/) and press the button (on Firefox, paste your clipboard contents into the text field before pressing the button)
+2. Go to [smolt.vercel.app](https://smolt.vercel.app/) and press `boop` (on Firefox, paste your clipboard contents into the text field before pressing the button)
+
+![image](https://user-images.githubusercontent.com/8410924/95898115-8c7bad80-0d5c-11eb-98d8-f96eda692566.png)
 
 3. Edit the comments
 
 4. Press "copy to clipboard"
+
+![image](https://user-images.githubusercontent.com/8410924/95897996-6229f000-0d5c-11eb-9c51-089302d59857.png)
+
 
 5. Paste your comments in the comments section on Gradescope
 

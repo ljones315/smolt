@@ -25,7 +25,7 @@ _the smol autograder for smol TAs_
 
 4. Press "copy to clipboard"
 
-![image](https://user-images.githubusercontent.com/8410924/95897996-6229f000-0d5c-11eb-9c51-089302d59857.png)
+![image](https://user-images.githubusercontent.com/8410924/95898454-0f9d0380-0d5d-11eb-81bc-6353a9e1f6c2.png)
 
 
 5. Paste your comments in the comments section on Gradescope

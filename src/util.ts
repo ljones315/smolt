@@ -64,6 +64,7 @@ export const splitComment = (
 
 export const HW_NAME_MAP: Record<string, number> = {
   LinearProbingHashMap: 6,
+  AVL: 7,
 };
 
 const getHwNum = (s: string): number | undefined => {

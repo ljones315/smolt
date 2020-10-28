@@ -8,8 +8,13 @@ import Message from './Message';
 
 const useStyles = createUseStyles({
   container: {},
+  headerHover: {
+    // border: '1px solid blue !important',
+    backgroundColor: `hsl(${Math.floor(Math.random() * 360)}, 100%, 98%)`,
+  },
   header: {
-    border: '1px solid black',
+    cursor: 'move',
+    border: '1px solid #000000',
     padding: '1em',
   },
   results: {
@@ -55,6 +60,8 @@ const CommentBox: React.FC<Props> = ({
   const classes = useStyles();
   const [show, setShow] = useState(true);
   const [showSplit, setShowSplit] = useState(false);
+  const [dragHover, setDragHover] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const showSplitTimeout = useRef<number>();
 
   return (
@@ -63,6 +70,7 @@ const CommentBox: React.FC<Props> = ({
       onDrop={(e): void => {
         e.preventDefault();
         e.stopPropagation();
+        setDragHover(false);
         const fromId = Number(e.dataTransfer.getData('text/plain'));
         if (fromId === comment.id) {
           return;
@@ -70,11 +78,17 @@ const CommentBox: React.FC<Props> = ({
         merge(fromId, comment.id);
       }}
       onDragOver={(e): void => {
+        setDragHover(true);
         e.preventDefault();
+      }}
+      onDragLeave={(e): void => {
+        setDragHover(false);
       }}
     >
       <div
-        className={classes.header}
+        className={`${classes.header} ${
+          dragHover && !dragging ? classes.headerHover : ''
+        }`}
         onClick={(): void => setShow(!show)}
         onMouseEnter={(): void => {
           window.clearTimeout(showSplitTimeout.current);
@@ -89,6 +103,10 @@ const CommentBox: React.FC<Props> = ({
         draggable
         onDragStart={(e): void => {
           e.dataTransfer.setData('text/plain', String(comment.id));
+          setDragging(true);
+        }}
+        onDragEnd={(e): void => {
+          setDragging(false);
         }}
       >
         <span className={classes.points}>[{sumPoints(comment)}]</span>{' '}

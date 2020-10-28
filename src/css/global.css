@@ -8,4 +8,5 @@ pre {
 input {
   font: inherit;
   border: none;
+  background-color: transparent;
 }

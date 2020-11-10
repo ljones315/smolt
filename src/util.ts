@@ -66,6 +66,7 @@ export const HW_NAME_MAP: Record<string, number> = {
   LinearProbingHashMap: 6,
   AVL: 7,
   Sorting: 8,
+  PatternMatching: 9,
 };
 
 const getHwNum = (s: string): number | undefined => {

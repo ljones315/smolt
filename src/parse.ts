@@ -32,8 +32,19 @@ export const parseText = (rawText: string): Result[] => {
 };
 
 export const encodeText = (comments: Comment[]): string => {
-  return comments.reduce(
-    (acc, c) => acc + `[${sumPoints(c)}] ${c.text}\n\n`,
+  const removedSum = comments.reduce(
+    (acc, c) => acc + (c.removed ? sumPoints(c) : 0),
+    0
+  );
+
+  const encoded = comments.reduce(
+    (acc, c) => acc + (!c.removed ? `[${sumPoints(c)}] ${c.text}\n\n` : ''),
     ''
   );
+
+  if (removedSum !== 0) {
+    return `[+${-removedSum}] Autograder error\n\n${encoded}`;
+  }
+
+  return encoded;
 };

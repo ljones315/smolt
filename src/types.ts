@@ -8,4 +8,6 @@ export interface Comment {
   id: number;
   text: string;
   results: Result[];
+  removed: boolean;
+  custom: boolean;
 }

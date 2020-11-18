@@ -56,9 +56,30 @@ export const splitComment = (
         id: base.current++,
         text: comments[index].text,
         results: [r],
+        removed: comments[index].removed,
+        custom: comments[index].custom,
       })
     )
   );
+  return out;
+};
+
+export const deleteComment = (
+  comments: Comment[],
+  index: number
+): Comment[] => {
+  const out = [...comments];
+  out.splice(index, 1);
+  return out;
+};
+
+export const toggleComment = (
+  comments: Comment[],
+  index: number,
+  base: React.MutableRefObject<number>
+): Comment[] => {
+  const out = [...comments];
+  out[index] = { ...comments[index], removed: !comments[index].removed };
   return out;
 };
 
@@ -67,6 +88,7 @@ export const HW_NAME_MAP: Record<string, number> = {
   AVL: 7,
   Sorting: 8,
   PatternMatching: 9,
+  GraphAlgorithms: 10,
 };
 
 const getHwNum = (s: string): number | undefined => {

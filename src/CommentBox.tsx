@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import AutosizeInput from 'react-input-autosize';
-import { MdCallSplit } from 'react-icons/md';
+import { MdAdd, MdCallSplit, MdCancel, MdClose } from 'react-icons/md';
 import { Comment } from './types';
 import { sumPoints } from './util';
 import Message from './Message';
@@ -39,8 +39,18 @@ const useStyles = createUseStyles({
   points: {
     color: '#888888',
   },
-  splitIcon: {
+  icon: {
     cursor: 'pointer',
+    marginRight: '2px',
+    color: '#CECECE',
+    '&:hover': {
+      color: '#000000',
+    },
+  },
+  iconContainer: {
+    display: 'inline-block',
+    top: '2px',
+    position: 'relative',
   },
 });
 
@@ -48,6 +58,8 @@ interface Props {
   comment: Comment;
   setText: (s: string) => void;
   splitComment: () => void;
+  toggleComment: () => void;
+  deleteComment: () => void;
   merge: (from: number, to: number) => void;
 }
 
@@ -55,14 +67,55 @@ const CommentBox: React.FC<Props> = ({
   comment,
   setText,
   splitComment,
+  toggleComment,
+  deleteComment,
   merge,
 }: Props) => {
   const classes = useStyles();
   const [show, setShow] = useState(true);
-  const [showSplit, setShowSplit] = useState(false);
+  const [isHovered, setHovered] = useState(false);
   const [dragHover, setDragHover] = useState(false);
   const [dragging, setDragging] = useState(false);
-  const showSplitTimeout = useRef<number>();
+  const hoverTimeout = useRef<number>();
+
+  const icons = (
+    <div className={classes.iconContainer}>
+      {comment.results.length > 1 && (
+        <MdCallSplit
+          className={classes.icon}
+          onClick={(e): void => {
+            e.stopPropagation();
+            splitComment();
+          }}
+        />
+      )}
+      {comment.removed ? (
+        <MdAdd
+          className={classes.icon}
+          onClick={(e): void => {
+            e.stopPropagation();
+            toggleComment();
+          }}
+        />
+      ) : !comment.custom ? (
+        <MdClose
+          className={classes.icon}
+          onClick={(e): void => {
+            e.stopPropagation();
+            toggleComment();
+          }}
+        />
+      ) : (
+        <MdCancel
+          className={classes.icon}
+          onClick={(e): void => {
+            e.stopPropagation();
+            deleteComment();
+          }}
+        />
+      )}
+    </div>
+  );
 
   return (
     <div
@@ -81,7 +134,7 @@ const CommentBox: React.FC<Props> = ({
         setDragHover(true);
         e.preventDefault();
       }}
-      onDragLeave={(e): void => {
+      onDragLeave={(): void => {
         setDragHover(false);
       }}
     >
@@ -91,25 +144,24 @@ const CommentBox: React.FC<Props> = ({
         }`}
         onClick={(): void => setShow(!show)}
         onMouseEnter={(): void => {
-          window.clearTimeout(showSplitTimeout.current);
-          setShowSplit(true);
+          window.clearTimeout(hoverTimeout.current);
+          setHovered(true);
         }}
         onMouseLeave={(): void => {
-          showSplitTimeout.current = window.setTimeout(
-            () => setShowSplit(false),
-            50
-          );
+          hoverTimeout.current = window.setTimeout(() => setHovered(false), 50);
         }}
         draggable
         onDragStart={(e): void => {
           e.dataTransfer.setData('text/plain', String(comment.id));
           setDragging(true);
         }}
-        onDragEnd={(e): void => {
+        onDragEnd={(): void => {
           setDragging(false);
         }}
       >
-        <span className={classes.points}>[{sumPoints(comment)}]</span>{' '}
+        <span className={classes.points}>
+          [{comment.removed ? `0` : sumPoints(comment)}]
+        </span>{' '}
         <AutosizeInput
           className={classes.input}
           onChange={(e): void => setText(e.target.value)}
@@ -119,19 +171,15 @@ const CommentBox: React.FC<Props> = ({
             fontSize: '16px',
             background: 'none',
           }}
+          inputStyle={{
+            color: comment.removed ? '#888888' : 'inherit',
+            textDecoration: comment.removed ? 'line-through' : '',
+          }}
           onClick={(e): void => {
             e.stopPropagation();
           }}
         />
-        {showSplit && comment.results.length > 1 && (
-          <MdCallSplit
-            className={classes.splitIcon}
-            onClick={(e): void => {
-              e.stopPropagation();
-              splitComment();
-            }}
-          />
-        )}
+        {isHovered && icons}
       </div>
       {show && (
         <div className={classes.resultsContainer}>

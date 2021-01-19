@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import MainScreen from './MainScreen';
 import { parseText } from './parse';
+import SettingsModal from './SettingsModal';
 import StartScreen from './StartScreen';
 import { usePreventWindowUnload } from './util';
 
@@ -15,6 +16,7 @@ const App: React.FC = () => {
       ) : (
         <MainScreen results={parseText(rawText)} />
       )}
+      <SettingsModal />
     </div>
   );
 };

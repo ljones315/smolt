@@ -1,5 +1,5 @@
 import { Result, Comment } from './types';
-import { sumPoints } from './util';
+import { NAME_KEY_LS, sumPoints } from './util';
 
 export const parseText = (rawText: string): Result[] => {
   const lines = rawText.split('\n');
@@ -37,10 +37,17 @@ export const encodeText = (comments: Comment[]): string => {
     0
   );
 
-  const encoded = comments.reduce(
+  let encoded = comments.reduce(
     (acc, c) => acc + (!c.removed ? `[${sumPoints(c)}] ${c.text}\n\n` : ''),
     ''
   );
+
+  const storedName = localStorage.getItem(NAME_KEY_LS);
+
+  if (storedName != null && storedName !== `"smolt"` && storedName !== `""`) {
+    const name = JSON.parse(storedName);
+    encoded = `${encoded}\n\n-${name}`;
+  }
 
   if (removedSum !== 0) {
     return `[+${-removedSum}] Autograder error\n\n${encoded}`;

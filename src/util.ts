@@ -85,6 +85,7 @@ export const toggleComment = (
 
 export const HW_NAME_MAP: Record<string, number> = {
   ArrayList: 1,
+  CircularSinglyLinkedList: 2,
   LinearProbingHashMap: 6,
   AVL: 7,
   Sorting: 8,
@@ -109,7 +110,7 @@ export const getGithubUrl = (s: string): string | null => {
   const hw = String(hwNum).padStart(2, '0');
   const fileName = `${fileMatch[1]}.java`;
   const lineNum = `${fileMatch[2]}`;
-  const url = `https://github.gatech.edu/cs-1332-fall-2020/homework/blob/master/homework${hw}/TAResources/${fileName}#L${lineNum}`;
+  const url = `https://github.gatech.edu/cs-1332-spring-2021/homework/blob/master/homework${hw}/TAResources/${fileName}#L${lineNum}`;
   return url;
 };
 

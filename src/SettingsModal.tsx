@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { MdClose, MdSettings } from 'react-icons/md';
-import { NAME_KEY_LS, useLocalStorage } from './util';
+import { EMOJI_KEY_LS, NAME_KEY_LS, useLocalStorage } from './util';
 import AutosizeInput from 'react-input-autosize';
+import { EmojiInfo } from './types';
 
 const useStyles = createUseStyles({
   topRight: {
@@ -39,6 +40,18 @@ const useStyles = createUseStyles({
   line: {
     display: `flex`,
     alignItems: `center`,
+    justifyContent: `center`,
+  },
+  emojis: {
+    marginBottom: `0.5em`,
+  },
+  numInput: {
+    borderBottom: `1px solid black`,
+    marginRight: `1em`,
+    textAlign: `right`,
+  },
+  textInput: {
+    borderBottom: `1px solid black`,
   },
 });
 
@@ -46,6 +59,24 @@ const SettingsModal = (): JSX.Element => {
   const classes = useStyles();
   const [isOpen, setOpen] = useState(false);
   const [name, setName] = useLocalStorage<string>(NAME_KEY_LS, 'smolt');
+
+  // I wanted to store an object but it was causing an infinite loop in
+  // useLocalStorage()
+  const [emojiInfo, setEmojiInfo_as_string] = useLocalStorage<string>(
+    EMOJI_KEY_LS,
+    JSON.stringify([])
+  );
+
+  const getEmojiInfo = useCallback(() => {
+    return JSON.parse(emojiInfo) as EmojiInfo;
+  }, [emojiInfo]);
+
+  const setEmojiInfo = useCallback(
+    (info: EmojiInfo) => {
+      setEmojiInfo_as_string(JSON.stringify(info));
+    },
+    [setEmojiInfo_as_string]
+  );
 
   return (
     <>
@@ -78,6 +109,66 @@ const SettingsModal = (): JSX.Element => {
                 e.stopPropagation();
               }}
             />
+          </div>
+          <br />
+          <div className={classes.emojis}>
+            {(JSON.parse(emojiInfo) as EmojiInfo).map((e, i) => {
+              return (
+                <div key={i} className={classes.line}>
+                  <input
+                    className={classes.numInput}
+                    type="number"
+                    min="0"
+                    max="100"
+                    // size={2}
+                    value={(+e.cutoff).toString()}
+                    onChange={e => {
+                      const data = getEmojiInfo();
+                      const val = Math.max(0, Math.min(100, +e.target.value));
+                      data[i].cutoff = val;
+                      setEmojiInfo(data);
+                    }}
+                  />
+
+                  <input
+                    className={classes.textInput}
+                    type="text"
+                    // size={5}
+                    value={e.emoji}
+                    onChange={e => {
+                      const data = getEmojiInfo();
+                      data[i].emoji = e.target.value;
+                      setEmojiInfo(data);
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <div className={classes.line}>
+            <button
+              onClick={() => {
+                const e = getEmojiInfo();
+                e.push({
+                  emoji: '',
+                  cutoff: 0,
+                });
+                setEmojiInfo(e);
+              }}
+            >
+              +
+            </button>
+            {getEmojiInfo().length > 0 && (
+              <button
+                onClick={() => {
+                  const e = getEmojiInfo();
+                  e.pop();
+                  setEmojiInfo(e);
+                }}
+              >
+                -
+              </button>
+            )}
           </div>
         </div>
       )}

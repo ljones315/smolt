@@ -11,3 +11,8 @@ export interface Comment {
   removed: boolean;
   custom: boolean;
 }
+
+export type EmojiInfo = Array<{
+  emoji: string;
+  cutoff: number;
+}>;

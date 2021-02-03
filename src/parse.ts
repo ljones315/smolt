@@ -1,5 +1,5 @@
-import { Result, Comment } from './types';
-import { NAME_KEY_LS, sumPoints } from './util';
+import { Result, Comment, EmojiInfo } from './types';
+import { EMOJI_KEY_LS, NAME_KEY_LS, sumPoints } from './util';
 
 export const parseText = (rawText: string): Result[] => {
   const lines = rawText.split('\n');
@@ -36,22 +36,34 @@ export const encodeText = (comments: Comment[]): string => {
     (acc, c) => acc + (c.removed ? sumPoints(c) : 0),
     0
   );
+  const removed = removedSum !== 0 ? `[+${-removedSum}] Autograder error` : '';
 
-  let encoded = comments.reduce(
-    (acc, c) => acc + (!c.removed ? `[${sumPoints(c)}] ${c.text}\n\n` : ''),
-    ''
-  );
+  const totalPoints =
+    100 + comments.reduce((acc, c) => acc + (!c.removed ? sumPoints(c) : 0), 0);
 
   const storedName = localStorage.getItem(NAME_KEY_LS);
-
+  let name = '';
   if (storedName != null && storedName !== `"smolt"` && storedName !== `""`) {
-    const name = JSON.parse(storedName);
-    encoded = `${encoded}\n\n-${name}`;
+    name = `-${JSON.parse(storedName)}`;
   }
 
-  if (removedSum !== 0) {
-    return `[+${-removedSum}] Autograder error\n\n${encoded}`;
+  const storedEmojis = localStorage.getItem(EMOJI_KEY_LS);
+  let emojis = '';
+  if (storedEmojis != null && storedName !== `""`) {
+    let emojiData = JSON.parse(JSON.parse(storedEmojis) as string) as EmojiInfo;
+
+    emojiData = emojiData.sort((a, b) => b.cutoff - a.cutoff);
+
+    const match = emojiData.find(e => totalPoints >= e.cutoff);
+    if (match) {
+      emojis = `${match.emoji}`;
+    }
   }
 
-  return encoded;
+  const encoded = comments
+    .map(c => (!c.removed ? `[${sumPoints(c)}] ${c.text}` : null))
+    .filter(c => c)
+    .join('\n\n');
+
+  return [removed, encoded, emojis, name].join('\n\n');
 };

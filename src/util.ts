@@ -127,6 +127,7 @@ export const usePreventWindowUnload = (preventDefault: boolean): void => {
 };
 
 export const NAME_KEY_LS = 'ta-name';
+export const EMOJI_KEY_LS = 'emoji-settings';
 
 // https://usehooks-typescript.com/react-hook/use-local-storage
 export function useLocalStorage<T>(

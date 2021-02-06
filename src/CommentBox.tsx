@@ -170,7 +170,7 @@ const CommentBox: React.FC<Props> = ({
             fontFamily: 'Open Sans',
             fontSize: '16px',
             background: 'none',
-            width: '100%',
+            width: '92%',
             color: comment.removed ? '#888888' : 'inherit',
             textDecoration: comment.removed ? 'line-through' : '',
             resize: 'none',

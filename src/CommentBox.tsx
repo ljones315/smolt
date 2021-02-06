@@ -76,6 +76,7 @@ const CommentBox: React.FC<Props> = ({
   const [isHovered, setHovered] = useState(false);
   const [dragHover, setDragHover] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [focus, setFocus] = useState(false);
   const hoverTimeout = useRef<number>();
 
   const icons = (
@@ -165,6 +166,8 @@ const CommentBox: React.FC<Props> = ({
         <TextareaAutosize
           className={classes.input}
           onChange={(e): void => setText(e.currentTarget.value)}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
           value={comment.text}
           style={{
             fontFamily: 'Open Sans',
@@ -175,6 +178,7 @@ const CommentBox: React.FC<Props> = ({
             textDecoration: comment.removed ? 'line-through' : '',
             resize: 'none',
             border: 'none',
+            whiteSpace: focus ? 'normal' : 'nowrap',
           }}
           onClick={(e): void => {
             e.stopPropagation();

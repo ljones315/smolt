@@ -175,6 +175,7 @@ const CommentBox: React.FC<Props> = ({
             background: 'none',
             paddingTop: '0',
             marginTop: '-2px',
+            marginBottom: '-5px',
             width: '92%',
             color: comment.removed ? '#888888' : 'inherit',
             textDecoration: comment.removed ? 'line-through' : '',

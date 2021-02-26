@@ -88,6 +88,7 @@ export const HW_NAME_MAP: Record<string, number> = {
   CircularSinglyLinkedList: 2,
   Stack: 3,
   Queue: 3,
+  BST: 4,
   LinearProbingHashMap: 6,
   AVL: 7,
   Sorting: 8,

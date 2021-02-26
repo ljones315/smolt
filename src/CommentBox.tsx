@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import AutosizeInput from 'react-input-autosize';
+import TextareaAutosize from 'react-autosize-textarea';
 import { MdAdd, MdCallSplit, MdCancel, MdClose } from 'react-icons/md';
 import { Comment } from './types';
 import { sumPoints } from './util';
@@ -76,6 +76,7 @@ const CommentBox: React.FC<Props> = ({
   const [isHovered, setHovered] = useState(false);
   const [dragHover, setDragHover] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [focus, setFocus] = useState(false);
   const hoverTimeout = useRef<number>();
 
   const icons = (
@@ -162,18 +163,25 @@ const CommentBox: React.FC<Props> = ({
         <span className={classes.points}>
           [{comment.removed ? `0` : sumPoints(comment)}]
         </span>{' '}
-        <AutosizeInput
+        <TextareaAutosize
           className={classes.input}
-          onChange={(e): void => setText(e.target.value)}
+          onChange={(e): void => setText(e.currentTarget.value)}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
           value={comment.text}
           style={{
             fontFamily: 'Open Sans',
             fontSize: '16px',
             background: 'none',
-          }}
-          inputStyle={{
+            paddingTop: '0',
+            marginTop: '-2px',
+            marginBottom: '-5px',
+            width: '92%',
             color: comment.removed ? '#888888' : 'inherit',
             textDecoration: comment.removed ? 'line-through' : '',
+            resize: 'none',
+            border: 'none',
+            whiteSpace: focus ? 'normal' : 'nowrap',
           }}
           onClick={(e): void => {
             e.stopPropagation();

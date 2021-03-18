@@ -89,7 +89,7 @@ export const HW_NAME_MAP: Record<string, number> = {
   Stack: 3,
   Queue: 3,
   BST: 4,
-  LinearProbingHashMap: 6,
+  HashMap: 6,
   AVL: 7,
   Sorting: 8,
   PatternMatching: 9,

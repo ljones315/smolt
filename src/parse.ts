@@ -11,7 +11,7 @@ export const parseText = (rawText: string): Result[] => {
     message: '',
   };
 
-  const pointsRegex = /\((-?\d\d?)\/(\d\d?)\)/;
+  const pointsRegex = /\((-?\d\d?)\/(\d\d?(\.\d+)?)\)/;
 
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].match(pointsRegex) != null) {

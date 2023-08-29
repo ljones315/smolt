@@ -113,7 +113,7 @@ export const getGithubUrl = (s: string): string | null => {
   const hw = String(hwNum).padStart(2, '0');
   const fileName = `${fileMatch[1]}.java`;
   const lineNum = `${fileMatch[2]}`;
-  const url = `https://github.gatech.edu/cs-1332-fall-2023/homework/blob/master/homework${hw}/TAResources/${fileName}#L${lineNum}`;
+  const url = `https://github.gatech.edu/cs-1332-fall-2023/homework/blob/main/homework${hw}/TAResources/${fileName}#L${lineNum}`;
   return url;
 };
 

@@ -1,8 +1,7 @@
 export const HW_NAME_MAP: Record<string, number> = {
   ArrayList: 1,
   DoublyLinkedList: 2,
-  ArrayDeque: 3,
-  LinkedDeque: 3,
+  Deque: 3,
   BST: 4,
   MinHeap: 5,
   HashMap: 6,

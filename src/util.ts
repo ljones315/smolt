@@ -85,10 +85,11 @@ export const toggleComment = (
 
 export const HW_NAME_MAP: Record<string, number> = {
   ArrayList: 1,
-  CircularSinglyLinkedList: 2,
-  Stack: 3,
-  Queue: 3,
+  DoublyLinkedList: 2,
+  ArrayDeque: 3,
+  LinkedDeque: 3,
   BST: 4,
+  MinHeap: 5,
   HashMap: 6,
   AVL: 7,
   Sorting: 8,

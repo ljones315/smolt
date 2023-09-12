@@ -12,6 +12,7 @@ export const parseText = (rawText: string): Result[] => {
   };
 
   const pointsRegex = /\((-?\d\d?)\/(\d\d?)\)/;
+  const genericsRegex = /Generics problems* \(lines* [^)]+\)/;
 
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].match(pointsRegex) != null) {
@@ -24,6 +25,10 @@ export const parseText = (rawText: string): Result[] => {
         message: '',
       };
     } else {
+      // name contains line number of generics deduction
+      if (lines[i].match(genericsRegex) != null) {
+        currResult.name = lines[i];
+      }
       currResult.message = `${currResult.message}\n${lines[i]}`;
     }
   }

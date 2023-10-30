@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Comment } from './types';
+import { HW_NAME_MAP, REPO_NAME } from './semester-settings';
 
 export const sumPoints = (c: Comment): number => {
   return c.results.reduce((acc, curr) => acc + curr.value, 0);
@@ -83,15 +84,6 @@ export const toggleComment = (
   return out;
 };
 
-export const HW_NAME_MAP: Record<string, number> = {
-  ArrayList: 1,
-  LinearProbingHashMap: 6,
-  AVL: 7,
-  Sorting: 8,
-  PatternMatching: 9,
-  GraphAlgorithms: 10,
-};
-
 const getHwNum = (s: string): number | undefined => {
   for (const key in HW_NAME_MAP) {
     if (s.includes(key)) return HW_NAME_MAP[key];
@@ -109,7 +101,7 @@ export const getGithubUrl = (s: string): string | null => {
   const hw = String(hwNum).padStart(2, '0');
   const fileName = `${fileMatch[1]}.java`;
   const lineNum = `${fileMatch[2]}`;
-  const url = `https://github.gatech.edu/cs-1332-fall-2020/homework/blob/master/homework${hw}/TAResources/${fileName}#L${lineNum}`;
+  const url = `https://github.gatech.edu/${REPO_NAME}/homework/blob/main/homework${hw}/TAResources/${fileName}#L${lineNum}`;
   return url;
 };
 
@@ -127,6 +119,7 @@ export const usePreventWindowUnload = (preventDefault: boolean): void => {
 };
 
 export const NAME_KEY_LS = 'ta-name';
+export const EMOJI_KEY_LS = 'emoji-settings';
 
 // https://usehooks-typescript.com/react-hook/use-local-storage
 export function useLocalStorage<T>(

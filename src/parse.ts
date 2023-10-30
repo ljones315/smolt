@@ -11,7 +11,7 @@ export const parseText = (rawText: string): Result[] => {
     message: '',
   };
 
-  const pointsRegex = /\((-?\d\d?)\/(\d\d?)\)/;
+  const pointsRegex = /\((-?\d\d?)\/(\d\d?(\.\d+)?)\)/;
   const genericsRegex = /Generics problems* \(lines* [^)]+\)/;
 
   for (let i = 0; i < lines.length; i++) {

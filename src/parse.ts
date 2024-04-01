@@ -20,7 +20,7 @@ export const parseText = (rawText: string): Result[] => {
       const values = lines[i].match(pointsRegex);
       const name = lines[i].match(/(.+) \(/);
       currResult = {
-        name: name != null ? name[1] : '',
+        name: name != null ? name[1].trim() : '',
         value: values != null ? Number(values[1]) - Number(values[2]) : 0,
         message: '',
       };
